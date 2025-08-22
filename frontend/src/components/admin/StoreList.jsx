@@ -18,27 +18,42 @@ const StoreList = () => {
     }
   };
 
-  // Render star rating
   const renderStars = (rating) => {
     const filled = Math.round(rating) || 0;
     return [...Array(5)].map((_, i) => (
-      <span key={i} style={{ color: i < filled ? 'gold' : 'lightgray', fontSize: '1.2rem' }}>★</span>
+      <span key={i} style={{ color: i < filled ? 'gold' : '#ccc', fontSize: '1.2rem' }}>★</span>
     ));
   };
 
   return (
-    <div className="container mt-5 bg-dark text-light">
-      <h3>All Stores</h3>
+    <div
+      className="container mt-5 p-4"
+      style={{
+        minHeight: "100vh",
+        background: "linear-gradient(135deg, #68BBE3, #0E86D4)",
+        borderRadius: "12px",
+      }}
+    >
+      <h3 style={{ color: "#003060", marginBottom: "20px", fontWeight: "bold" }}>All Stores</h3>
 
-      {/* Search bar */}
-      <div className="mb-3 d-flex">
+      {/* Search */}
+      <div className="mb-4 d-flex">
         <input
           className="form-control me-2"
           placeholder="Search by name..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
+          style={{
+            borderColor: "#003060",
+            backgroundColor: "#055C9D",
+            color: "#fff"
+          }}
         />
-        <button className="btn btn-primary" onClick={fetchStores}>
+        <button
+          className="btn"
+          style={{ backgroundColor: "#003060", color: "#fff" }}
+          onClick={fetchStores}
+        >
           Search
         </button>
       </div>
@@ -48,7 +63,10 @@ const StoreList = () => {
         {stores.length > 0 ? (
           stores.map((store) => (
             <div className="col-md-4 mb-4" key={store.id}>
-              <div className="card shadow-sm h-100">
+              <div
+                className="card shadow-sm h-100"
+                style={{ borderRadius: "12px", backgroundColor: "#055C9D", color: "#fff" }}
+              >
                 <div className="card-body">
                   <h5 className="card-title">{store.name}</h5>
                   <p className="card-text">{store.address}</p>
@@ -61,7 +79,7 @@ const StoreList = () => {
             </div>
           ))
         ) : (
-          <p className="text-center">No stores found</p>
+          <p className="text-center" style={{ color: "#003060" }}>No stores found</p>
         )}
       </div>
     </div>

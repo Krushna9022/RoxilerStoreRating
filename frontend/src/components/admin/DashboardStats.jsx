@@ -26,34 +26,31 @@ const DashboardStats = () => {
   if (loading) return <p>Loading stats...</p>;
   if (error) return <p className="text-danger">{error}</p>;
 
+  const cardColors = ["#68BBE3", "#0E86D4", "#055C9D"];
+
   return (
-    <div className="mt-5">
-      <h2>Admin Dashboard</h2>
+    <div className="">
+      <h2 style={{ color: "#003060", fontWeight: "bold" }}>Admin Dashboard</h2>
       <div className="row mt-4">
-        <div className="col-md-4 mb-3">
-          <div className="card text-white bg-primary h-100">
-            <div className="card-body">
-              <h5 className="card-title">Total Users</h5>
-              <p className="card-text fs-3">{stats.total_users}</p>
+        {["Total Users", "Total Stores", "Total Ratings"].map((title, idx) => (
+          <div className="col-md-4 mb-3" key={idx}>
+            <div
+              className="card h-100 shadow-sm"
+              style={{
+                backgroundColor: cardColors[idx],
+                color: "#fff",
+                borderRadius: "12px",
+              }}
+            >
+              <div className="card-body text-center">
+                <h5 className="card-title">{title}</h5>
+                <p className="card-text fs-3">
+                  {idx === 0 ? stats.total_users : idx === 1 ? stats.total_stores : stats.total_ratings}
+                </p>
+              </div>
             </div>
           </div>
-        </div>
-        <div className="col-md-4 mb-3">
-          <div className="card text-white bg-success h-100">
-            <div className="card-body">
-              <h5 className="card-title">Total Stores</h5>
-              <p className="card-text fs-3">{stats.total_stores}</p>
-            </div>
-          </div>
-        </div>
-        <div className="col-md-4 mb-3">
-          <div className="card text-white bg-info h-100">
-            <div className="card-body">
-              <h5 className="card-title">Total Ratings</h5>
-              <p className="card-text fs-3">{stats.total_ratings}</p>
-            </div>
-          </div>
-        </div>
+        ))}
       </div>
     </div>
   );
