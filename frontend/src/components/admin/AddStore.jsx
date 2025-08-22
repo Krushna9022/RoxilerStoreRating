@@ -4,14 +4,13 @@ import api from '../../services/api';
 const AddStore = () => {
   const [form, setForm] = useState({ name: '', email: '', address: '', owner_id: '' });
   const [message, setMessage] = useState('');
-  const [owners, setOwners] = useState([]); // store owners list
+  const [owners, setOwners] = useState([]);
 
-  // Fetch store owners from backend
   useEffect(() => {
     const fetchOwners = async () => {
       try {
-        const res = await api.get('/users'); // fetch all users
-        const storeOwners = res.data.filter((user) => user.role === 'store_owner'); // filter owners
+        const res = await api.get('/users');
+        const storeOwners = res.data.filter((user) => user.role === 'store_owner');
         setOwners(storeOwners);
       } catch (err) {
         console.error('Failed to fetch owners:', err);
@@ -20,9 +19,7 @@ const AddStore = () => {
     fetchOwners();
   }, []);
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
+  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -37,66 +34,92 @@ const AddStore = () => {
   };
 
   return (
-    <div className="container mt-4">
-      <h3>Add New Store</h3>
-      {message && <div className="alert alert-info">{message}</div>}
+    <div
+      className="container d-flex justify-content-center align-items-start p-4"
+      style={{
+        minHeight: "100vh",
+        background: "linear-gradient(135deg, #68BBE3, #0E86D4)"
+      }}
+    >
+      <div
+        className="card p-4 shadow-lg"
+        style={{ width: "500px", borderRadius: "12px", backgroundColor: "#055C9D" }}
+      >
+        <h3 className="text-center mb-4" style={{ color: "#fff" }}>Add New Store</h3>
 
-      <form onSubmit={handleSubmit} className="mt-3">
-        <div className="mb-3">
-          <label>Store Name</label>
-          <input
-            name="name"
-            type="text"
-            className="form-control"
-            onChange={handleChange}
-            value={form.name}
-            required
-          />
-        </div>
+        {message && (
+          <div className="alert" style={{ backgroundColor: "#003060", color: "#fff" }}>
+            {message}
+          </div>
+        )}
 
-        <div className="mb-3">
-          <label>Email</label>
-          <input
-            name="email"
-            type="email"
-            className="form-control"
-            onChange={handleChange}
-            value={form.email}
-            required
-          />
-        </div>
+        <form onSubmit={handleSubmit}>
+          <div className="mb-3">
+            <label className="form-label text-white">Store Name</label>
+            <input
+              name="name"
+              type="text"
+              className="form-control"
+              value={form.name}
+              onChange={handleChange}
+              required
+              style={{ borderColor: "#003060" }}
+            />
+          </div>
 
-        <div className="mb-3">
-          <label>Address</label>
-          <textarea
-            name="address"
-            className="form-control"
-            onChange={handleChange}
-            value={form.address}
-            required
-          />
-        </div>
+          <div className="mb-3">
+            <label className="form-label text-white">Email</label>
+            <input
+              name="email"
+              type="email"
+              className="form-control"
+              value={form.email}
+              onChange={handleChange}
+              required
+              style={{ borderColor: "#003060" }}
+            />
+          </div>
 
-        <div className="mb-3">
-          <label>Owner</label>
-          <select
-            name="owner_id"
-            className="form-select"
-            value={form.owner_id}
-            onChange={handleChange}
-            required
+          <div className="mb-3">
+            <label className="form-label text-white">Address</label>
+            <textarea
+              name="address"
+              className="form-control"
+              value={form.address}
+              onChange={handleChange}
+              required
+              style={{ borderColor: "#003060" }}
+            />
+          </div>
+
+          <div className="mb-3">
+            <label className="form-label text-white">Owner</label>
+            <select
+              name="owner_id"
+              className="form-select"
+              value={form.owner_id}
+              onChange={handleChange}
+              required
+              style={{ borderColor: "#003060", backgroundColor: "#68BBE3", color: "#003060" }}
+            >
+              <option value="">Select Owner</option>
+              {owners.map((owner) => (
+                <option key={owner.id} value={owner.id}>
+                  {owner.name} ({owner.email})
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <button
+            className="btn w-100"
+            style={{ backgroundColor: "#003060", color: "#fff" }}
+            type="submit"
           >
-            <option value="">Select Owner</option>
-            {owners.map((owner) => (
-              <option key={owner.id} value={owner.id}>
-                {owner.name} ({owner.email})
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <button className="btn btn-success">Add Store</button>
-      </form>
+            Add Store
+          </button>
+        </form>
+      </div>
     </div>
   );
 };
