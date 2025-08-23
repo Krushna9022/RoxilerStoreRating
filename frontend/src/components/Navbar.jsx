@@ -1,34 +1,18 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import logo from "../assets/roxiler_systems_logo.png";
 import { getRole, removeToken } from "../utils/auth";
 
-const Navbar = ( { isLoggedIn, setIsLoggedIn }) => {
+const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
   const navigate = useNavigate();
-
-  // Update login status whenever localStorage changes
-  // useEffect(() => {
-  //   console.log("inside mouting phase use effect::")
-  //   const handleStorageChange = () => {
-  //     setIsLoggedIn(!!localStorage.getItem("token"));
-  //     console.log("login status : " + isLoggedIn);
-  //     console.log("localstorage data: " + localStorage.getItem)
-  //   };
-  //   window.addEventListener("storage", handleStorageChange);
-  //   return () => window.removeEventListener("storage", handleStorageChange);
-  // }, [isLoggedIn]);
-
+  const role = getRole();
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const handleLogout = () => {
     removeToken();
     setIsLoggedIn(false);
     navigate("/login");
   };
-
-  const changeLoginStatus = (status)=>{
-    setIsLoggedIn(status);
-  }
-  const role = getRole();
 
   return (
     <nav
@@ -79,33 +63,55 @@ const Navbar = ( { isLoggedIn, setIsLoggedIn }) => {
             {/* Conditional Dashboard Links */}
             {isLoggedIn && role === "admin" && (
               <li className="nav-item">
-                <Link className="nav-link text-warning fw-semibold" to="/admin/dashboard">
+                <Link
+                  className="nav-link text-warning fw-semibold"
+                  to="/admin/dashboard"
+                >
                   Admin Dashboard
                 </Link>
               </li>
             )}
             {isLoggedIn && role === "store_owner" && (
               <li className="nav-item">
-                <Link className="nav-link text-warning fw-semibold" to="/owner/dashboard">
+                <Link
+                  className="nav-link text-warning fw-semibold"
+                  to="/owner/dashboard"
+                >
                   Store Owner
                 </Link>
               </li>
             )}
 
-            {/* Auth Buttons */}
+            {/* Auth Buttons or Profile Dropdown */}
             {isLoggedIn ? (
-              <li className="nav-item ms-3">
+              <li className="nav-item dropdown ms-3">
                 <button
-                  className="btn btn-sm"
+                  className="btn btn-sm dropdown-toggle"
                   style={{
                     backgroundColor: "#68BBE3",
                     color: "#003060",
                     fontWeight: "600",
                   }}
-                  onClick={handleLogout}
+                  onClick={() => setDropdownOpen(!dropdownOpen)}
                 >
-                  Logout
+                  Profile
                 </button>
+                <ul
+                  className={`dropdown-menu dropdown-menu-end ${
+                    dropdownOpen ? "show" : ""
+                  }`}
+                >
+                  <li>
+                    <Link className="dropdown-item" to="/change-password">
+                      Change Password
+                    </Link>
+                  </li>
+                  <li>
+                    <button className="dropdown-item" onClick={handleLogout}>
+                      Logout
+                    </button>
+                  </li>
+                </ul>
               </li>
             ) : (
               <>

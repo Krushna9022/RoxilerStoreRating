@@ -13,6 +13,7 @@ import OwnerDashboard from './components/storeowner/OwnerDashboard';
 import Home from './pages/Home';
 import About from './pages/About';
 import { useState } from 'react';
+import ChangePassword from './components/ChangePassword';
 function App() {
    const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path='/about' element={<About/>}/>
         <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
         <Route path="/register" element={<Register />} />
+        <Route path='/change-password' element={<ChangePassword/>}/>
 
         {/* Role-based dashboards (coming soon) */}
       <Route path="/admin" element={<AdminLayout />}>
