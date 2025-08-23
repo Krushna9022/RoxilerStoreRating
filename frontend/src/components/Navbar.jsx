@@ -9,12 +9,16 @@ const Navbar = () => {
 
   // Update login status whenever localStorage changes
   useEffect(() => {
+    console.log("inside mouting phase use effect::")
     const handleStorageChange = () => {
       setIsLoggedIn(!!localStorage.getItem("token"));
+      console.log("login status : " + isLoggedIn);
+      console.log("localstorage data: " + localStorage.getItem)
     };
     window.addEventListener("storage", handleStorageChange);
     return () => window.removeEventListener("storage", handleStorageChange);
-  }, []);
+  }, [isLoggedIn]);
+
 
   const handleLogout = () => {
     removeToken();
@@ -22,6 +26,9 @@ const Navbar = () => {
     navigate("/login");
   };
 
+  const changeLoginStatus = (status)=>{
+    setIsLoggedIn(status);
+  }
   const role = getRole();
 
   return (

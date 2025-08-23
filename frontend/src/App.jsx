@@ -10,11 +10,15 @@ import AdminLayout from './components/admin/AdminLayout';
 import DashboardStats from './components/admin/DashboardStats';
 import AdminAddOwner from './components/admin/AdminAddOwner';
 import OwnerDashboard from './components/storeowner/OwnerDashboard';
+import Home from './pages/Home';
+import About from './pages/About';
 function App() {
   return (
     <BrowserRouter>
     <Navbar/>
       <Routes>
+        <Route path='/' element={<Home/>}/>
+        <Route path='/about' element={<About/>}/>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 

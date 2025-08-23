@@ -21,25 +21,58 @@ const StoreDetail = ({ store, goBack }) => {
     }
   };
 
-  if (loading) return <p className="text-center mt-4">Loading ratings...</p>;
+  if (loading) return <p className="text-center mt-4" style={{ color: "#003060" }}>Loading ratings...</p>;
 
   return (
-    <div>
-      <button className="btn btn-secondary mb-3" onClick={goBack}>
+    <div className="mt-3">
+      <button
+        className="btn mb-3"
+        onClick={goBack}
+        style={{
+          backgroundColor: "#0E86D4",
+          color: "#fff",
+          borderRadius: "6px",
+          padding: "8px 16px",
+          fontWeight: "600",
+          border: "none",
+        }}
+        onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#68BBE3")}
+        onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#0E86D4")}
+      >
         ← Back to Stores
       </button>
-      <h4>Ratings for: {store.store_name}</h4>
+
+      <h4 style={{ color: "#003060", fontWeight: "bold", marginBottom: "20px" }}>
+        Ratings for: {store.store_name}
+      </h4>
+
       {ratings.length === 0 ? (
-        <p>No ratings yet for this store.</p>
+        <p style={{ color: "#055C9D" }}>No ratings yet for this store.</p>
       ) : (
-        <div className="list-group">
+        <div className="row">
           {ratings.map((r) => (
-            <div className="list-group-item" key={r.user_id}>
-              <h6>{r.user_name} ({r.user_email})</h6>
-              <p>
-                Rating: {"★".repeat(r.rating) + "☆".repeat(5 - r.rating)}
-              </p>
-              <small>Submitted on: {new Date(r.created_at).toLocaleString()}</small>
+            <div className="col-md-6 mb-4" key={r.user_id}>
+              <div
+                className="card shadow-sm h-100"
+                style={{
+                  borderRadius: "12px",
+                  backgroundColor: "#fff",
+                  border: "1px solid #0E86D4",
+                  transition: "0.3s",
+                }}
+              >
+                <div className="card-body">
+                  <h6 style={{ color: "#003060", fontWeight: "bold" }}>
+                    {r.user_name} <small style={{ color: "#055C9D" }}>({r.user_email})</small>
+                  </h6>
+                  <p style={{ fontSize: "18px", color: "#FFD700" }}>
+                    {"★".repeat(r.rating) + "☆".repeat(5 - r.rating)}
+                  </p>
+                  <small style={{ color: "#555" }}>
+                    Submitted on: {new Date(r.created_at).toLocaleString()}
+                  </small>
+                </div>
+              </div>
             </div>
           ))}
         </div>
