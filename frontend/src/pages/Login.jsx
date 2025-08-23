@@ -3,7 +3,7 @@ import api from '../services/api';
 import { saveToken, getRole } from '../utils/auth';
 import { useNavigate, Link } from 'react-router-dom';
 
-const Login = () => {
+const Login = ({ setIsLoggedIn }) => {
   const [form, setForm] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
   const navigate = useNavigate();
@@ -17,10 +17,12 @@ const Login = () => {
     try {
       const res = await api.post('/auth/login', form);
       saveToken(res.data.token);
+      setIsLoggedIn(true)
 
       const role = getRole();
       if (role === 'admin') navigate('/admin/dashboard');
       else if (role === 'store_owner') navigate('/owner/dashboard');
+
       else navigate('/user/stores');
     } catch (err) {
       setError(err.response?.data?.msg || 'Login failed');

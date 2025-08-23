@@ -12,14 +12,16 @@ import AdminAddOwner from './components/admin/AdminAddOwner';
 import OwnerDashboard from './components/storeowner/OwnerDashboard';
 import Home from './pages/Home';
 import About from './pages/About';
+import { useState } from 'react';
 function App() {
+   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
   return (
     <BrowserRouter>
-    <Navbar/>
+    <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>
       <Routes>
         <Route path='/' element={<Home/>}/>
         <Route path='/about' element={<About/>}/>
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
         <Route path="/register" element={<Register />} />
 
         {/* Role-based dashboards (coming soon) */}

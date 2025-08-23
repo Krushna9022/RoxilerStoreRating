@@ -3,21 +3,20 @@ import { useState, useEffect } from "react";
 import logo from "../assets/roxiler_systems_logo.png";
 import { getRole, removeToken } from "../utils/auth";
 
-const Navbar = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
+const Navbar = ( { isLoggedIn, setIsLoggedIn }) => {
   const navigate = useNavigate();
 
   // Update login status whenever localStorage changes
-  useEffect(() => {
-    console.log("inside mouting phase use effect::")
-    const handleStorageChange = () => {
-      setIsLoggedIn(!!localStorage.getItem("token"));
-      console.log("login status : " + isLoggedIn);
-      console.log("localstorage data: " + localStorage.getItem)
-    };
-    window.addEventListener("storage", handleStorageChange);
-    return () => window.removeEventListener("storage", handleStorageChange);
-  }, [isLoggedIn]);
+  // useEffect(() => {
+  //   console.log("inside mouting phase use effect::")
+  //   const handleStorageChange = () => {
+  //     setIsLoggedIn(!!localStorage.getItem("token"));
+  //     console.log("login status : " + isLoggedIn);
+  //     console.log("localstorage data: " + localStorage.getItem)
+  //   };
+  //   window.addEventListener("storage", handleStorageChange);
+  //   return () => window.removeEventListener("storage", handleStorageChange);
+  // }, [isLoggedIn]);
 
 
   const handleLogout = () => {
