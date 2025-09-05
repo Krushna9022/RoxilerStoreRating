@@ -6,7 +6,7 @@ const db = mysql.createConnection({
   user: process.env.DB_USER,
   password: process.env.DB_PASS,
   database: process.env.DB_NAME,
-    port: process.env.DB_PORT ? Number(process.env.DB_PORT) : 3306, // fallback to 3306
+   port: process.env.DB_PORT ? Number(process.env.DB_PORT) : 3306, // fallback to 3306
     
 });
 
