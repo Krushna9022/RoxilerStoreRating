@@ -51,7 +51,7 @@ exports.getAllUsers = (req, res) => {
 // admin to add storeowner 
 
 exports.createStoreOwner = async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password ,address} = req.body;
 
   if (!name || !email || !password) {
     return res.status(400).json({ msg: 'All fields are required' });
@@ -71,10 +71,10 @@ exports.createStoreOwner = async (req, res) => {
       const hashedPassword = await bcrypt.hash(password, 10);
 
       const insertQuery = `
-        INSERT INTO users (name, email, password, role)
-        VALUES (?, ?, ?, 'store_owner')
+        INSERT INTO users (name, email, password, address ,role)
+        VALUES (?, ?, ?, ?,'store_owner')
       `;
-      db.query(insertQuery, [name, email, hashedPassword], (err) => {
+      db.query(insertQuery, [name, email, hashedPassword,address], (err) => {
         if (err) return res.status(500).json({ msg: 'Failed to create store owner' });
 
         res.status(201).json({ msg: 'Store owner created successfully', email, password });
